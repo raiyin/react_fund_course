@@ -4,7 +4,7 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <div>App is working!
-    <button>Push</button>
-    </div>
+  React.createElement('button', {
+    onClick: ()=>console.log('Click')
+  }, 'Push me!')
 );
