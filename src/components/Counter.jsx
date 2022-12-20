@@ -20,4 +20,4 @@ const Counter = function () {
   )
 }
 
-export default Counter;
+export default Counter

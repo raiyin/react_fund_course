@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PostItem from './PostItem'
 
-const PostList = ({posts, title}) => {
+const PostList = ({ posts, title }) => {
   return (
     <div>
       {' '}
