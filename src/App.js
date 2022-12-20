@@ -30,11 +30,11 @@ function App() {
                     onChange={e => setTitle(e.target.value)}
                     type="text"
                     placeholder="Название поста" />
-                <input ref={bodyInputRef} type="text" />
-                {/* <MyInput
+                {/* Неуправляемый/неконтролируемый компонент*/}
+                <MyInput
                     ref={bodyInputRef}
                     type="text"
-                    placeholder="Описание поста" /> */}
+                    placeholder="Описание поста" />
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>
             </form>
             <PostList posts={posts} title="Список постов 1." />
