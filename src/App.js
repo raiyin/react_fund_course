@@ -10,43 +10,36 @@ function App() {
         { id: 1, title: "Javascript", body: "description" },
         { id: 2, title: "Javascript 2", body: "description" },
         { id: 3, title: "Javascript 3", body: "description" },
-    ])
+    ]);
 
-    const [title, setTitle] = useState('')
-    const [body, setBody] = useState('')
+    const [post, setPost] = useState({ title: '', body: '' });
 
     const addNewPost = (e) => {
         e.preventDefault();
-        const newPost = {
-            id: Date.now(),
-            title,
-            body
-        }
-        setPosts([...posts, newPost])
-        setTitle('')
-        setBody('')
-    }
+        setPosts([...posts, { ...post, id: Date.now() }]);
+        setPost({ title: '', body: '' });
+    };
 
     return (
         <div className="App">
             <form>
                 {/* Управляемый компонент*/}
                 <MyInput
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    value={post.title}
+                    onChange={e => setPost({ ...post, title: e.target.value })}
                     type="text"
                     placeholder="Название поста" />
                 {/* Неуправляемый/неконтролируемый компонент*/}
                 <MyInput
-                    value={body}
-                    onChange={e => setBody(e.target.value)}
+                    value={post.body}
+                    onChange={e => setPost({ ...post, body: e.target.value })}
                     type="text"
                     placeholder="Описание поста" />
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>
             </form>
             <PostList posts={posts} title="Список постов 1." />
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
