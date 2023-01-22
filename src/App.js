@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import './styles/App.css';
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
@@ -17,6 +17,10 @@ function App() {
     const [modal, setModal] = useState(false);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
         setModal(false);
@@ -33,7 +37,6 @@ function App() {
 
     return (
         <div className="App">
-            <button onClick={fetchPosts}>Get posts</button>
             <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>Создать пользователя</MyButton>
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm create={createPost} />
