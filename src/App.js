@@ -9,6 +9,7 @@ import Loader from './components/UI/Loader/Loader';
 import usePosts from './hooks/usePosts';
 import PostService from './API/PostService';
 import { useFetching } from './hooks/useFetching';
+import { getPageArray, getTotalPages } from './utils/pages';
 
 function App() {
 
@@ -16,10 +17,17 @@ function App() {
 
     const [filter, setFilter] = useState({ sort: '', query: '' });
     const [modal, setModal] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+    let pageArray = getPageArray(totalPages);
+
     const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
-        const posts = await PostService.getAll();
-        setPosts(posts);
+        const response = await PostService.getAll(limit, page);
+        setPosts(response.data);
+        const totalCount = response.headers['x-total-count'];
+        setTotalPages(getTotalPages(totalCount, limit));
     });
 
     useEffect(() => {
@@ -35,6 +43,11 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id));
     };
 
+    const changePage = (page) => {
+        setPage(page);
+        fetchPosts(page);
+    };
+
     return (
         <div className="App">
             <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>Создать пользователя</MyButton>
@@ -48,6 +61,18 @@ function App() {
                 ? <div style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}><Loader /></div>
                 : <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Список постов 1." />
             }
+            <div className='page__wrapper'>
+                {pageArray.map(p =>
+                    <span
+                        onClick={() => changePage(p)}
+                        key={p}
+                        className={page === p ? 'page page__current' : 'page'}
+                    >
+                        {p}
+                    </span>
+                )}
+            </div>
+
         </div >
     );
 }
