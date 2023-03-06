@@ -1,8 +1,8 @@
 import React from 'react';
-import { getPageArray } from '../../../utils/pages';
+import { getPagesArray } from '../../../utils/pages';
 
 export default function Pagination({ totalPages, page, changePage }) {
-    let pageArray = getPageArray(totalPages);
+    let pageArray = getPagesArray(totalPages);
     return (
         <div className='page__wrapper'>
             {pageArray.map(p =>
